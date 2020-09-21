@@ -14,3 +14,24 @@ Template repository to create standardized Fastify plugins.
 4. Template for the GitHub App [Stale](https://github.com/apps/stale).
 5. Template for the GitHub App [tests-checker](https://github.com/apps/tests-checker).
 
+# Repository structure
+
+```
+├── .github
+│   ├── workflows
+│   │   ├── ci.yml
+│   │   └── package-manager-ci.yml
+│   ├── .stale.yml
+│   ├── dependabot.yml
+│   └── tests_checker.yml
+│
+├── docs (Documentation)
+│   
+├── examples (Code examples)
+│
+├── test (Application tests)
+│   
+├── types (Typescript types tests)
+│  
+└── README.md
+```
