@@ -1,0 +1,71 @@
+name: Continuous Integration
+on:
+  push:
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+  pull_request:
+    paths-ignore:
+      - "docs/**"
+      - "*.md"
+
+env:
+  CI: true
+  COVERALLS: 0
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # Maintenance and active LTS
+        node-version: [10.x, 12.x, 14.x]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    name: Node ${{ matrix.node-version }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        id: setup_node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        id: install
+        run: npm install --ignore-scripts
+
+      - name: Check licenses
+        id: license_check
+        run: |
+          npm run license-checker --if-present
+
+      # Unit and lint tests
+      - name: Tests
+        id: test
+        run: npm run test
+
+      - name: Coveralls Parallel
+        id: coveralls
+        uses: coverallsapp/github-action@master
+        if: env.COVERALLS == 1
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel: true
+
+      - name: Typescript
+        id: typescript_test
+        run: npm run typescript --if-present
+
+  coverage:
+    needs: build
+    runs-on: ubuntu-latest
+    if: env.COVERALLS == 1
+    steps:
+      - name: Coveralls Finished
+        id: send_coveralls_report
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
