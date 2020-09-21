@@ -8,11 +8,11 @@ Template repository to create standardized Fastify plugins.
 
 # What's include?
 
-1. Github CI Actions for Installing, testing your package.
+1. Github CI Actions for installing, testing your package.
 2. Github CI Actions to validate different package managers.
 3. Dependabot V2 config to automate dependency updates.
-4. Template for the GitHub App [Stale](https://github.com/apps/stale).
-5. Template for the GitHub App [tests-checker](https://github.com/apps/tests-checker).
+4. Template for the GitHub App [Stale](https://github.com/apps/stale) to mark issues as stale. 
+5. Template for the GitHub App [tests-checker](https://github.com/apps/tests-checker) to check if a PR contains tests.
 
 # Repository structure
 
