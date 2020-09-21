@@ -31,7 +31,7 @@ Template repository to create standardized Fastify plugins.
 │
 ├── test (Application tests)
 │   
-├── types (Typescript types tests)
+├── types (Typescript types)
 │  
 └── README.md
 ```
