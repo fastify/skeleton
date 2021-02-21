@@ -28,7 +28,7 @@ jobs:
 
       - name: Use Node.js
         id: setup_node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.4
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -47,12 +47,11 @@ jobs:
         run: npm run test
 
       - name: Coveralls Parallel
-        id: coveralls
-        uses: coverallsapp/github-action@master
-        if: env.COVERALLS == 1
+        uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ secrets.github_token }}
           parallel: true
+          flag-name: run-${{ matrix.node-version }}-${{ matrix.os }}
 
       - name: Typescript
         id: typescript_test
@@ -61,11 +60,18 @@ jobs:
   coverage:
     needs: build
     runs-on: ubuntu-latest
-    if: env.COVERALLS == 1
     steps:
       - name: Coveralls Finished
-        id: send_coveralls_report
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+
+  automerge:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fastify/github-action-merge-dependabot@v1.1.1
+        if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
+        with:
+          github-token: ${{secrets.github_token}}
