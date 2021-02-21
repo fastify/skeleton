@@ -6,7 +6,7 @@ Template repository to create standardized Fastify plugins.
 
 - Click on `Use this template` above to create a new repository based on this repository.
 
-# What's include?
+# What's included?
 
 1. Github CI Actions for installing, testing your package.
 2. Github CI Actions to validate different package managers.
