@@ -1,25 +1,26 @@
-name: Continuous Integration
+name: CI
+
 on:
   push:
     paths-ignore:
-      - "docs/**"
-      - "*.md"
+      - 'docs/**'
+      - '*.md'
   pull_request:
     paths-ignore:
-      - "docs/**"
-      - "*.md"
+      - 'docs/**'
+      - '*.md'
 
 env:
   CI: true
   COVERALLS: 0
 
 jobs:
-  build:
+  test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         # Maintenance and active LTS
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [10, 12, 14, 16]
         os: [ubuntu-latest, windows-latest, macOS-latest]
     name: Node ${{ matrix.node-version }}
 
@@ -44,7 +45,7 @@ jobs:
       # Unit and lint tests
       - name: Tests
         id: test
-        run: npm run test
+        run: npm test
 
       - name: Coveralls Parallel
         uses: coverallsapp/github-action@v1.1.2
@@ -68,10 +69,9 @@ jobs:
           parallel-finished: true
 
   automerge:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: fastify/github-action-merge-dependabot@v2.0.0
-        if: ${{ github.actor == 'dependabot[bot]' && github.event_name == 'pull_request' }}
         with:
-          github-token: ${{secrets.github_token}}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
