@@ -150,3 +150,11 @@ bun.lockb
 
 # tap files
 .tap/
+
+# Agents files
+CLAUDE.md
+AGENTS.md
+.agents/
+.agent
+.claude
+.pi
